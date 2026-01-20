@@ -10,7 +10,7 @@ const JourneySection: React.FC = () => {
     return (
         <section className="py-24 px-6 bg-black text-white border-b-[3px] border-black">
             <div className="max-w-6xl mx-auto">
-                <h2 className="text-4xl md:text-5xl font-black text-center mb-20 text-[#00C853]">HOW IT WORKS</h2>
+                <h2 className="text-4xl md:text-5xl font-black text-center mb-20 text-[#00C853] pixel-font tracking-tight">HOW IT WORKS</h2>
 
                 <div className="grid md:grid-cols-3 gap-12 relative">
                     {/* Connector Line (Desktop) */}
@@ -18,11 +18,11 @@ const JourneySection: React.FC = () => {
 
                     {steps.map((step, i) => (
                         <div key={i} className="relative z-10 flex flex-col items-center text-center">
-                            <div className="w-24 h-24 bg-black border-4 border-[#00C853] rounded-full flex items-center justify-center text-3xl font-black text-[#00C853] shadow-[0_0_15px_rgba(0,200,83,0.4)] mb-8">
+                            <div className="w-24 h-24 bg-black border-4 border-[#00C853] flex items-center justify-center text-xl pixel-font text-[#00C853] shadow-[0_0_15px_rgba(0,200,83,0.4)] mb-8">
                                 {step.num}
                             </div>
-                            <h3 className="text-2xl font-bold mb-4">{step.title}</h3>
-                            <p className="text-gray-400 font-medium leading-relaxed max-w-xs">{step.desc}</p>
+                            <h3 className="text-xl font-bold mb-4 pixel-font text-white">{step.title}</h3>
+                            <p className="text-gray-400 font-medium leading-relaxed max-w-xs kr-sans text-sm">{step.desc}</p>
                         </div>
                     ))}
                 </div>
