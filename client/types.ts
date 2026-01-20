@@ -56,6 +56,7 @@ export interface Quiz {
 }
 
 export enum AppState {
+  LANDING = 'LANDING',
   ONBOARDING = 'ONBOARDING',
   DISCOVERY = 'DISCOVERY',
   DASHBOARD = 'DASHBOARD',

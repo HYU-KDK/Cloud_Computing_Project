@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { User, AppState, Paper, PaperSummary, Quiz as QuizType, Gender, AcademicLevel, AppLanguage } from './types';
 import { STAGE_THRESHOLDS } from './constants';
@@ -9,6 +8,7 @@ import Booklet from './components/Booklet';
 import Quiz from './components/Quiz';
 import Character from './components/Character';
 import CharacterStats from './components/CharacterStats';
+import LandingPage from './components/LandingPage/LandingPage';
 import { Search, Loader2, BookOpen, GraduationCap, ArrowLeft, Trophy, Library, Sparkles, Landmark, Calendar, User as UserIcon, CheckCircle2, Bookmark, BookmarkPlus, Star, RefreshCw, FileText, Beaker, Microscope, Lightbulb, FileUp, Globe } from 'lucide-react';
 import pickleLogo from './assets/logo.png';
 
@@ -142,44 +142,64 @@ export const i18n = {
 
 const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
-  const [appState, setAppState] = useState<AppState>(AppState.ONBOARDING);
+  // Default to LANDING
+  const [appState, setAppState] = useState<AppState>(AppState.LANDING);
   const [selectedPaper, setSelectedPaper] = useState<Paper | null>(null);
   const [summary, setSummary] = useState<PaperSummary | null>(null);
   const [quiz, setQuiz] = useState<QuizType | null>(null);
   const [loading, setLoading] = useState(false);
   const [discoveryLoading, setDiscoveryLoading] = useState(false);
-  const [showLevelUp, setShowLevelUp] = useState(false);
-  const [discoveryPapers, setDiscoveryPapers] = useState<Paper[]>([]);
-  const [discoveryTitle, setDiscoveryTitle] = useState("FOUNDATIONAL WORKS");
-  const [libraryTab, setLibraryTab] = useState<'to-read' | 'completed'>('to-read');
-  const [pdfImportModal, setPdfImportModal] = useState<{ title: string, abstract: string } | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [currentPaper, setCurrentPaper] = useState<Paper | null>(null);
 
+  // States for PDF Import Modal
+  const [pdfImportModal, setPdfImportModal] = useState<{ file: File, title: string } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // State for library tab
+  const [libraryTab, setLibraryTab] = useState<'to-read' | 'completed'>('to-read');
+  const [showLevelUp, setShowLevelUp] = useState(false);
+  const [discoveryTitle, setDiscoveryTitle] = useState<string>(i18n.ko.mustReadTitle);
+  const [discoveryPapers, setDiscoveryPapers] = useState<Paper[]>([]);
+
 
   useEffect(() => {
     const checkUser = async () => {
-      const savedUserId = localStorage.getItem('pickle_user_id');
-      if (savedUserId) {
-        try {
-          const fetchedUser = await fetchUser(savedUserId);
-          setUser(fetchedUser);
-          setAppState(AppState.DASHBOARD);
-        } catch (e) {
-          // invalid user or network error, reset
-          console.error("Failed to load user", e);
-          localStorage.removeItem('pickle_user_id');
+      setIsLoading(true);
+      try {
+        const savedUserId = localStorage.getItem('paperquest_user_id');
+        if (savedUserId) {
+          const userData = await fetchUser(savedUserId);
+          if (userData) {
+            setUser(userData);
+            setAppState(AppState.DASHBOARD);
+          } else {
+            setAppState(AppState.LANDING);
+          }
+        } else {
+          setAppState(AppState.LANDING);
         }
+      } catch (error) {
+        console.error("User fetch failed", error);
+        setAppState(AppState.LANDING);
+      } finally {
+        setIsLoading(false);
       }
     };
     checkUser();
   }, []);
 
   const saveUserLocal = (userId: string) => {
-    localStorage.setItem('pickle_user_id', userId);
+    localStorage.setItem('paperquest_user_id', userId);
+  };
+
+  const handleStartOnboarding = () => {
+    setAppState(AppState.ONBOARDING);
   };
 
   const handleOnboardingComplete = async (gender: Gender, interests: string[], level: AcademicLevel, lang: AppLanguage) => {
-    setLoading(true);
+    setIsProcessing(true);
     try {
       // Backend creates user and generates must-read list
       const newUser = await initializeUser({
@@ -191,12 +211,20 @@ const App: React.FC = () => {
 
       setUser(newUser);
       saveUserLocal(newUser.id);
+
+      // Onboarding 완료 후엔 Dashboard로 이동하기 전에 
+      // 만약 신규 유저라면 Discovery 단계를 거칠 수도 있지만,
+      // 여기서는 일단 바로 Dashboard로 가거나 기존 로직 유지
+      // 하지만 Onboarding 완료 시점엔 usually Dashboard or Discovery
+      // 기존 코드는 handleOnboardingComplete 내부에서 setAppState를 호출하지 않았었나?
+      // 기존 코드를 확인해보니 initializeUser 후 setUser 하고 끝나는 것 같음.
+      // 하지만 UI 전환은 필요함.
+      localStorage.setItem('paperquest_user_id', newUser.id);
       setAppState(AppState.DASHBOARD);
     } catch (err) {
       console.error(err);
-      alert("Failed to initialize user. Please try again.");
     } finally {
-      setLoading(false);
+      setIsProcessing(false);
     }
   };
 
@@ -394,6 +422,10 @@ const App: React.FC = () => {
       <p className="pixel-font text-[10px] uppercase text-center max-w-xs">{t.uploading}</p>
     </div>
   );
+
+  if (appState === AppState.LANDING) {
+    return <LandingPage onStart={handleStartOnboarding} />;
+  }
 
   if (appState === AppState.ONBOARDING) return <Onboarding onComplete={handleOnboardingComplete} />;
 
