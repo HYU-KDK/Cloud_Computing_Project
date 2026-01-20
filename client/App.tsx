@@ -553,7 +553,7 @@ const App: React.FC = () => {
                   </section>
                   <section className="mb-10">
                     <h5 className="font-black text-sm uppercase mb-4 flex items-center gap-2"><Lightbulb size={16} /> {t.contributions}</h5>
-                    <ul className="space-y-4">{summary.contributions.map((c, i) => <li key={i} className="flex gap-4 items-start"><div className="w-6 h-6 shrink-0 bg-black text-white text-[10px] pixel-font flex items-center justify-center mt-1">{i + 1}</div><p className="text-gray-800 font-bold">{c}</p></li>)}</ul>
+                    <ul className="space-y-4">{(summary.contributions || []).map((c, i) => <li key={i} className="flex gap-4 items-start"><div className="w-6 h-6 shrink-0 bg-black text-white text-[10px] pixel-font flex items-center justify-center mt-1">{i + 1}</div><p className="text-gray-800 font-bold">{c}</p></li>)}</ul>
                   </section>
                   <div className="space-y-10 border-t-2 pt-10">
                     <section><h5 className="font-black text-[11px] uppercase text-indigo-600 mb-3">{t.intro}</h5><p className="text-sm leading-relaxed text-gray-700 bg-gray-50 p-4">{summary.introduction}</p></section>
