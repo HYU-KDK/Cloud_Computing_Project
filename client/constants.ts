@@ -123,11 +123,13 @@ export const INTEREST_OPTIONS = [
   'Genetics', 'Evolutionary Biology', 'Ecology', 'Microbiology', 'Botany', 'Zoology', 'Marine Biology', 'Mycology', 'Virology', 'Immunology', 'Cell Biology', 'Neurobiology', 'Computational Biology', 'Genomics', 'Proteomics',
   'Calculus', 'Linear Algebra', 'Number Theory', 'Topology', 'Differential Equations', 'Abstract Algebra', 'Real Analysis', 'Complex Analysis', 'Probability Theory', 'Mathematical Logic', 'Graph Theory', 'Statistics', 'Bayesian Statistics',
   'Geology', 'Oceanography', 'Meteorology', 'Paleontology', 'Seismology', 'Volcanology', 'Atmospheric Science', 'Geophysics', 'Hydrology', 'Geomorphology', 'Climatology', 'Mineralogy',
+  'Quantum Computing', 'Solid State Physics', 'Biophysics', 'Geochemistry', 'Exoplanets', 'Astrobiology', 'Nanophysics', 'Computational Chemistry', 'Synthetic Chemistry', 'Epigenetics', 'Stem Cell Biology', 'Systems Biology', 'Conservation Biology', 'Environmental Science', 'Ocean Ecology',
 
   // 2. Engineering & Technology (공학 및 기술)
   'Computer Science (CS)', 'Machine Learning (ML)', 'Deep Learning (DL)', 'Neural Networks (NN)', 'Natural Language Processing (NLP)', 'Large Language Models (LLM)', 'Generative AI (GenAI)', 'Computer Vision (CV)', 'Robotics', 'Artificial Intelligence (AI)',
   'Reinforcement Learning (RL)', 'Bayesian Inference', 'Stochastic Processes', 'Information Theory', 'Cybersecurity', 'Cryptography', 'Blockchain', 'Web Development', 'Software Engineering (SE)', 'Distributed Systems',
   'Cloud Computing', 'Edge AI', 'Human-Computer Interaction (HCI)', 'Internet of Things (IoT)', 'Data Science', 'Big Data', 'Parallel Computing', 'Algorithm Design', 'Game Development', 'Operating Systems (OS)', 'Compiler Construction',
+  'Multimodal Learning', 'Diffusion Models', 'Transformer Architectures', 'Retrieval-Augmented Generation (RAG)', 'Vision Transformers (ViT)', 'Foundational Models', 'Self-Supervised Learning', 'Contrastive Learning', 'Federated Learning', 'Explainable AI (XAI)', 'Prompt Engineering', 'Fine-tuning', 'LoRA', 'Knowledge Graphs', 'Recommender Systems', 'Time Series Analysis', 'Anomaly Detection', 'Digital Twins',
   'Sentiment Analysis', 'Named Entity Recognition (NER)', 'Machine Translation (MT)', 'Question Answering (QA)', 'Text Summarization', 'Speech-to-Text (STT)', 'Text-to-Speech (TTS)',
   'Mechanical Engineering (ME)', 'Mechatronics', 'Control Systems', 'Electrical Engineering (EE)', 'Power Electronics', 'VLSI Design', 'Embedded Systems', 'Signal Processing', 'Wireless Communication', 'Photonics',
   'Chemical Engineering', 'Process Systems', 'Civil Engineering', 'Structural Engineering', 'Environmental Engineering', 'Geotechnical Engineering', 'Aerospace Engineering', 'Avionics', 'Propulsion Systems',
@@ -137,20 +139,24 @@ export const INTEREST_OPTIONS = [
   'Anatomy', 'Physiology', 'Pathology', 'Pharmacology', 'Immunology', 'Neuroscience', 'Clinical Medicine', 'Internal Medicine', 'Surgery', 'Pediatrics', 'Obstetrics and Gynecology (OB/GYN)', 'Oncology',
   'Cardiology', 'Neurology', 'Gastroenterology', 'Dermatology', 'Endocrinology', 'Hematology', 'Infectious Diseases', 'Psychiatry', 'Radiology', 'Emergency Medicine', 'Ophthalmology', 'Otolaryngology', 'Urology',
   'Public Health', 'Epidemiology', 'Health Policy', 'Nursing Science', 'Dentistry', 'Oral Surgery', 'Pharmacogenomics', 'Toxicology', 'Biophysics', 'Medical Imaging (MRI/CT)', 'Telemedicine', 'Gerontology', 'Nutrition Science',
+  'CRISPR & Gene Editing', 'Precision Medicine', 'Digital Health', 'Global Health', 'Regenerative Medicine', 'Neurodegenerative Diseases', 'Cancer Immunotherapy', 'Vaccinology', 'Medical Ethics', 'Bioengineering', 'Rehabilitation Science', 'Forensic Medicine', 'Anesthesiology',
 
   // 4. Social Sciences (사회과학)
   'Sociology', 'Social Theory', 'Urban Sociology', 'Criminology', 'Economics', 'Macroeconomics', 'Microeconomics', 'Econometrics', 'Development Economics', 'Behavioral Economics', 'Labor Economics', 'Financial Economics',
   'Political Science', 'Comparative Politics', 'International Relations (IR)', 'Public Administration', 'Political Theory', 'Geopolitics', 'Psychology', 'Cognitive Science', 'Social Psychology', 'Developmental Psychology',
   'Neuropsychology', 'Clinical Psychology', 'Experimental Psychology', 'Anthropology', 'Cultural Anthropology', 'Archaeology', 'Education Policy', 'Pedagogy', 'Higher Education', 'Special Education', 'Educational Technology',
   'Communication Studies', 'Media Studies', 'Journalism', 'Business Administration (MBA)', 'Marketing', 'Strategic Management', 'Finance', 'Accounting', 'Law', 'Jurisprudence', 'International Law', 'Human Rights Law', 'Corporate Law',
+  'Behavioral Finance', 'Urban Planning', 'Digital Sociology', 'Social Network Analysis', 'Environmental Economics', 'Game Theory', 'Conflict Resolution', 'Public Relations (PR)', 'Advertising', 'Supply Chain Management (SCM)', 'Entrepreneurship', 'Consumer Behavior', 'Intellectual Property (IP) Law', 'Migration Studies',
 
   // 5. Humanities (인문학)
   'Philosophy', 'Ethics', 'Epistemology', 'Metaphysics', 'Logic', 'Phenomenology', 'Existentialism', 'Political Philosophy', 'Philosophy of Science', 'World History', 'Ancient History', 'Medieval History',
   'Modern History', 'Linguistics', 'Semantics', 'Phonetics', 'Phonology', 'Syntax', 'Pragmatics', 'Sociolinguistics', 'Historical Linguistics', 'Literature', 'Comparative Literature', 'Poetry', 'Drama', 'Prose',
   'Classical Studies', 'Theology', 'Religious Studies', 'Comparative Religion', 'Cultural Studies', 'Art History', 'Museum Studies', 'Hermeneutics', 'Epigraphy', 'Paleography',
+  'Digital Humanities', 'Bioethics', 'Post-Structuralism', 'Feminist Philosophy', 'Environmental Ethics', 'Philosophy of Mind', 'Oral History', 'Computational Linguistics', 'Psycholinguistics', 'Creative Writing', 'Film Studies', 'Visual Culture', 'Modernism/Post-Modernism',
 
   // 6. Arts & Sports (예술 및 체육)
   'Fine Arts', 'Painting', 'Sculpture', 'Photography', 'Graphic Design', 'Industrial Design', 'Visual Communication', 'Cinematography', 'Animation', 'Digital Art', 'Fashion Design', 'UI/UX Design', 'Interaction Design',
   'Music Theory', 'Composition', 'Musicology', 'Ethnomusicology', 'Music Production', 'Performance Art', 'Theater', 'Dance', 'Choreography', 'Physical Education', 'Kinesiology', 'Biomechanics', 'Exercise Physiology',
-  'Sports Management', 'Sports Psychology', 'Sports Nutrition', 'Athletic Training', 'Sports Sociology', 'Sports Data Analysis'
+  'Sports Management', 'Sports Psychology', 'Sports Nutrition', 'Athletic Training', 'Sports Sociology', 'Sports Data Analysis',
+  'Media Art', 'Sound Engineering', 'Generative Art', '3D Modeling', 'Virtual Reality (VR) Art', 'Fashion Technology', 'Music Therapy', 'Esports', 'Sports Medicine', 'Adaptive Sports', 'Performance Analysis', 'Curatorial Studies', 'Digital Preservation'
 ];

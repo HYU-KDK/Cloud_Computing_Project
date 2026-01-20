@@ -69,12 +69,11 @@ export const analyzePaper = async (
     Generate exactly 5 questions based ONLY on the summary content you generated in TASK 1. 
     A user must be able to solve all 5 questions correctly just by reading the summary you provided.
     
-    Ensure the questions follow this strict order and type:
-    1. Question 1: Multiple Choice (MCQ) - 4 options.
-    2. Question 2: Multiple Choice (MCQ) - 4 options.
-    3. Question 3: Multiple Choice (MCQ) - 4 options.
-    4. Question 4: Short Answer (주관식) - Core technical term or concept from the summary.
-    5. Question 5: Short Answer (주관식) - Core technical term or concept from the summary.
+    Ensure the questions follow this STRICT distribution:
+    - Questions 1, 2, 3: Must be Multiple Choice (MCQ) with exactly 4 options.
+    - Questions 4, 5: Must be Short Answer (주관식). Do NOT provide options. The answer should be a specific technical term or short phrase found in the summary.
+
+    For Short Answer questions, set the "type" field to "short" and ensure "options" is an empty array or omitted.
 
     Output format MUST be a single JSON object with this structure:
     {
