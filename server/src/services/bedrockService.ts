@@ -6,15 +6,43 @@ const client = new BedrockRuntimeClient({ region: process.env.AWS_REGION || "us-
 const MODEL_ID = process.env.BEDROCK_MODEL_ID || "anthropic.claude-3-sonnet-20240229-v1:0";
 
 const invokeClaude = async (system: string, userPrompt: string): Promise<any> => {
-    const payload = {
-        anthropic_version: "bedrock-2023-05-31",
-        max_tokens: 4096,
-        system: system,
-        messages: [
-            { role: "user", content: userPrompt }
-        ],
-        temperature: 0.5,
-    };
+    // 1. Construct Payload based on Model Family
+    let payload: any = {};
+    const isNova = MODEL_ID.includes("nova");
+    const isTitan = MODEL_ID.includes("titan");
+
+    if (isNova) {
+        // Amazon Nova Payload
+        payload = {
+            system: [{ text: system }],
+            messages: [{ role: "user", content: [{ text: userPrompt }] }],
+            inferenceConfig: {
+                max_new_tokens: 4096,
+                temperature: 0.5,
+                top_p: 0.9,
+            }
+        };
+    } else if (isTitan) {
+        // Titan Text (Basic support)
+        payload = {
+            inputText: `${system}\n\n${userPrompt}`,
+            textGenerationConfig: {
+                maxTokenCount: 4096,
+                temperature: 0.5,
+            }
+        };
+    } else {
+        // Anthropic Claude Payload (Default)
+        payload = {
+            anthropic_version: "bedrock-2023-05-31",
+            max_tokens: 4096,
+            system: system,
+            messages: [
+                { role: "user", content: userPrompt }
+            ],
+            temperature: 0.5,
+        };
+    }
 
     const command = new InvokeModelCommand({
         modelId: MODEL_ID,
@@ -26,7 +54,19 @@ const invokeClaude = async (system: string, userPrompt: string): Promise<any> =>
     try {
         const response = await client.send(command);
         const decodedBody = JSON.parse(new TextDecoder().decode(response.body));
-        const text = decodedBody.content[0].text;
+
+        let text = "";
+
+        // 2. Parse Response based on Model Family
+        if (isNova) {
+            // Nova response structure: output.message.content[0].text
+            text = decodedBody.output?.message?.content?.[0]?.text || "";
+        } else if (isTitan) {
+            text = decodedBody.results?.[0]?.outputText || "";
+        } else {
+            // Claude response structure
+            text = decodedBody.content?.[0]?.text || "";
+        }
 
         // Extract JSON if wrapped in markdown code blocks
         const jsonMatch = text.match(/```json\n([\s\S]*?)\n```/) || text.match(/{[\s\S]*}/);
@@ -35,6 +75,7 @@ const invokeClaude = async (system: string, userPrompt: string): Promise<any> =>
         return JSON.parse(jsonStr);
     } catch (error) {
         console.error("Bedrock Invoke Error:", error);
+        console.error("Used Model:", MODEL_ID);
         throw new Error("Failed to generate content from Bedrock");
     }
 };
