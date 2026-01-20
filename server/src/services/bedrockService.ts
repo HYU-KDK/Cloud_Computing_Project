@@ -176,5 +176,14 @@ export const getMustReadPapers = async (interests: string[], level: AcademicLeve
     Return a JSON array of objects with keys: id, title, authors (array), url, source, venue, year, abstract, recommendationReason.
   `;
 
-    return await invokeClaude(system, prompt);
+    const data = await invokeClaude(system, prompt);
+    // Ensure it's an array. Sometimes AI wraps it in { "papers": [...] }
+    if (Array.isArray(data)) {
+        return data;
+    } else if (data.papers && Array.isArray(data.papers)) {
+        return data.papers;
+    } else {
+        console.warn("Bedrock returned non-array structure:", data);
+        return [];
+    }
 };
