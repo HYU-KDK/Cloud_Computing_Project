@@ -93,30 +93,38 @@ app.post('/api/user', async (req, res) => {
 
         // 3. Save Papers and UserPapers (Must Reads)
         // We do this concurrently or loop
-        for (const paperData of mustReads) {
-            // Upsert paper to avoid duplicates
-            const paper = await prisma.paper.upsert({
-                where: { title: paperData.title },
-                update: {},
-                create: {
-                    title: paperData.title,
-                    authors: paperData.authors || [],
-                    url: paperData.url || "#",
-                    source: paperData.source || "Unknown",
-                    venue: paperData.venue,
-                    year: String(paperData.year || ""), // Ensure string
-                    abstract: paperData.abstract || "No abstract available"
-                }
-            });
+        // 3. Save Papers and UserPapers (Must Reads)
+        try {
+            for (const paperData of mustReads) {
+                if (!paperData.title) continue; // Skip invalid papers
 
-            await prisma.userPaper.create({
-                data: {
-                    userId: user.id,
-                    paperId: paper.id,
-                    isMustRead: true,
-                    recommendationReason: paperData.recommendationReason
-                }
-            });
+                // Upsert paper to avoid duplicates
+                const paper = await prisma.paper.upsert({
+                    where: { title: paperData.title },
+                    update: {},
+                    create: {
+                        title: paperData.title,
+                        authors: paperData.authors || [],
+                        url: paperData.url || "#",
+                        source: paperData.source || "Unknown",
+                        venue: paperData.venue,
+                        year: String(paperData.year || ""), // Ensure string
+                        abstract: paperData.abstract || "No abstract available"
+                    }
+                });
+
+                await prisma.userPaper.create({
+                    data: {
+                        userId: user.id,
+                        paperId: paper.id,
+                        isMustRead: true,
+                        recommendationReason: paperData.recommendationReason
+                    }
+                });
+            }
+        } catch (paperError) {
+            console.error("Failed to save initial papers:", paperError);
+            // Verify we don't block user creation response
         }
 
         res.json({ id: user.id }); // Return ID for frontend to store/redirect
