@@ -64,10 +64,10 @@ resource "aws_lambda_function" "paper_processor" {
 
   environment {
     variables = {
-      DB_HOST     = aws_db_instance.default.address
-      DB_USER     = aws_db_instance.default.username
+      DB_HOST     = aws_instance.web_server.public_ip
+      DB_USER     = "pickleadmin"
       DB_PASSWORD = var.db_password
-      DB_NAME     = aws_db_instance.default.db_name
+      DB_NAME     = "pickledb"
     }
   }
 }
