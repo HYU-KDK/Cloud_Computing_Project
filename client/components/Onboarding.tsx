@@ -3,6 +3,7 @@ import React, { useState, useMemo } from 'react';
 import { Gender, AcademicLevel, AppLanguage } from '../types';
 import { INTEREST_OPTIONS } from '../constants';
 import { Check, ArrowRight, X, Plus, GraduationCap, Flame, Sparkles, ChevronLeft, Globe } from 'lucide-react';
+import pickleLogo from '../assets/logo.png';
 
 interface OnboardingProps {
   onComplete: (gender: Gender, interests: string[], level: AcademicLevel, lang: AppLanguage) => void;
@@ -82,19 +83,19 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
     <div className="min-h-screen bg-[#fcfcfc] flex items-center justify-center p-6 antialiased">
       <div className="max-w-xl w-full">
         <div className="text-center mb-12">
-          <h1 className="text-5xl font-black academic-font italic tracking-tight mb-3 text-black">PaperQuest</h1>
+          <img src={pickleLogo} alt="Pickle" className="h-24 mx-auto mb-6 object-contain" />
           <p className="text-gray-500 font-bold uppercase tracking-widest text-[10px]">{t.engine}</p>
         </div>
 
         <div className="bg-white border-[3px] border-black p-10 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
           {step === 0 && (
             <section className="space-y-8 animate-in fade-in duration-500">
-               <h2 className="text-3xl font-extrabold tracking-tight">{t.langSelect}</h2>
-               <div className="grid grid-cols-2 gap-4">
-                 <button onClick={() => setLang('ko')} className={`p-6 border-2 font-black transition-all ${lang === 'ko' ? 'bg-black text-white' : 'bg-white text-black border-gray-100 hover:border-black'}`}>한국어 (KO)</button>
-                 <button onClick={() => setLang('en')} className={`p-6 border-2 font-black transition-all ${lang === 'en' ? 'bg-black text-white' : 'bg-white text-black border-gray-100 hover:border-black'}`}>ENGLISH (EN)</button>
-               </div>
-               <button onClick={() => setStep(1)} className="w-full py-5 bg-black text-white font-extrabold text-sm uppercase tracking-widest flex items-center justify-center gap-2">{t.continue} <ArrowRight size={18} /></button>
+              <h2 className="text-3xl font-extrabold tracking-tight">{t.langSelect}</h2>
+              <div className="grid grid-cols-2 gap-4">
+                <button onClick={() => setLang('ko')} className={`p-6 border-2 font-black transition-all ${lang === 'ko' ? 'bg-black text-white' : 'bg-white text-black border-gray-100 hover:border-black'}`}>한국어 (KO)</button>
+                <button onClick={() => setLang('en')} className={`p-6 border-2 font-black transition-all ${lang === 'en' ? 'bg-black text-white' : 'bg-white text-black border-gray-100 hover:border-black'}`}>ENGLISH (EN)</button>
+              </div>
+              <button onClick={() => setStep(1)} className="w-full py-5 bg-black text-white font-extrabold text-sm uppercase tracking-widest flex items-center justify-center gap-2">{t.continue} <ArrowRight size={18} /></button>
             </section>
           )}
 

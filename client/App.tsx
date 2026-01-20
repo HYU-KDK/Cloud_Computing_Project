@@ -10,6 +10,7 @@ import Quiz from './components/Quiz';
 import Character from './components/Character';
 import CharacterStats from './components/CharacterStats';
 import { Search, Loader2, BookOpen, GraduationCap, ArrowLeft, Trophy, Library, Sparkles, Landmark, Calendar, User as UserIcon, CheckCircle2, Bookmark, BookmarkPlus, Star, RefreshCw, FileText, Beaker, Microscope, Lightbulb, FileUp, Globe } from 'lucide-react';
+import pickleLogo from './assets/logo.png';
 
 // Localization Dictionary - UI의 모든 텍스트를 포함하도록 확장
 export const i18n = {
@@ -157,7 +158,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const checkUser = async () => {
-      const savedUserId = localStorage.getItem('paperquest_user_id');
+      const savedUserId = localStorage.getItem('pickle_user_id');
       if (savedUserId) {
         try {
           const fetchedUser = await fetchUser(savedUserId);
@@ -166,7 +167,7 @@ const App: React.FC = () => {
         } catch (e) {
           // invalid user or network error, reset
           console.error("Failed to load user", e);
-          localStorage.removeItem('paperquest_user_id');
+          localStorage.removeItem('pickle_user_id');
         }
       }
     };
@@ -174,7 +175,7 @@ const App: React.FC = () => {
   }, []);
 
   const saveUserLocal = (userId: string) => {
-    localStorage.setItem('paperquest_user_id', userId);
+    localStorage.setItem('pickle_user_id', userId);
   };
 
   const handleOnboardingComplete = async (gender: Gender, interests: string[], level: AcademicLevel, lang: AppLanguage) => {
@@ -200,7 +201,7 @@ const App: React.FC = () => {
   };
 
   const handleResetApp = () => {
-    localStorage.removeItem('paperquest_user_id');
+    localStorage.removeItem('pickle_user_id');
     setUser(null);
     setAppState(AppState.ONBOARDING);
     setSelectedPaper(null);
@@ -440,7 +441,7 @@ const App: React.FC = () => {
       <header className="sticky top-0 z-50 bg-white border-b-2 border-black px-6 py-4 flex justify-between items-center shadow-sm">
         <div className="flex items-center gap-3 cursor-pointer" onClick={() => setAppState(AppState.DASHBOARD)}>
           <BookOpen size={24} />
-          <h1 className="text-xl font-black italic academic-font">PaperQuest</h1>
+          <img src={pickleLogo} alt="Pickle" className="h-8 object-contain" />
         </div>
         <div className="flex items-center gap-6">
           <div className="hidden md:flex flex-col items-end">
@@ -494,7 +495,7 @@ const App: React.FC = () => {
             )}
           </div>
         ) : appState === AppState.CHARACTER_STATS ? (
-          <CharacterStats user={user!} onBack={() => setAppState(AppState.DASHBOARD)} onUpdateUser={saveUser} onReset={handleResetApp} />
+          <CharacterStats user={user!} onBack={() => setAppState(AppState.DASHBOARD)} onUpdateUser={setUser} onReset={handleResetApp} />
         ) : (
           <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-12 pb-20">
             <div className="lg:col-span-1 space-y-8">
