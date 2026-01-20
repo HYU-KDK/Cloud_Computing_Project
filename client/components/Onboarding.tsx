@@ -1,7 +1,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { Gender, AcademicLevel, AppLanguage } from '../types';
-import { INTEREST_OPTIONS } from '../constants';
+import { CATEGORIZED_INTERESTS } from '../constants';
 import { Check, ArrowRight, X, Plus, GraduationCap, Flame, Sparkles, ChevronLeft, Globe } from 'lucide-react';
 import pickleLogo from '../assets/logo.png';
 
@@ -63,10 +63,30 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
     }
   }[lang];
 
-  const filteredSuggestions = useMemo(() => {
-    if (!inputValue.trim()) return [];
-    return INTEREST_OPTIONS.filter(opt => opt.toLowerCase().includes(inputValue.toLowerCase()) && !selectedInterests.includes(opt));
+  const filteredSuggestionsObject = useMemo(() => {
+    if (!inputValue.trim()) return {};
+
+    const results: Record<string, string[]> = {};
+    const lowerInput = inputValue.toLowerCase();
+
+    Object.entries(CATEGORIZED_INTERESTS).forEach(([category, interests]) => {
+      // Filter interests starting with input or matching abbreviation in parentheses
+      const matchedInterests = interests.filter(interest => {
+        const lowerInterest = interest.toLowerCase();
+        // Check if starts with input OR if abbreviation (inside parentheses) starts with input
+        return (lowerInterest.startsWith(lowerInput) || lowerInterest.includes(`(${lowerInput}`))
+          && !selectedInterests.includes(interest);
+      });
+
+      if (matchedInterests.length > 0) {
+        results[category] = matchedInterests;
+      }
+    });
+
+    return results;
   }, [inputValue, selectedInterests]);
+
+  const hasSuggestions = Object.keys(filteredSuggestionsObject).length > 0;
 
   const toggleInterest = (interest: string) => {
     if (selectedInterests.includes(interest)) setSelectedInterests(prev => prev.filter(i => i !== interest));
@@ -135,10 +155,34 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
             <section className="space-y-8 animate-in fade-in duration-500">
               <h2 className="text-3xl font-extrabold tracking-tight">{t.interests}</h2>
               <div className="relative">
-                <div className="flex items-center border-2 border-black p-4 bg-gray-50 focus-within:bg-white"><input type="text" value={inputValue} onChange={(e) => { setInputValue(e.target.value); setShowSuggestions(true); }} placeholder={t.searchPlaceholder} className="flex-1 bg-transparent outline-none font-bold text-sm" /><Plus size={20} /></div>
-                {showSuggestions && filteredSuggestions.length > 0 && (
+                <div className="flex items-center border-2 border-black p-4 bg-gray-50 focus-within:bg-white">
+                  <input
+                    type="text"
+                    value={inputValue}
+                    onChange={(e) => { setInputValue(e.target.value); setShowSuggestions(true); }}
+                    placeholder={t.searchPlaceholder}
+                    className="flex-1 bg-transparent outline-none font-bold text-sm"
+                  />
+                  <Plus size={20} />
+                </div>
+                {showSuggestions && hasSuggestions && (
                   <div className="absolute z-50 w-full mt-2 bg-white border-2 border-black shadow-lg max-h-64 overflow-y-auto">
-                    {filteredSuggestions.map((s) => <button key={s} onClick={() => toggleInterest(s)} className="w-full text-left px-5 py-4 text-sm font-bold border-b hover:bg-black hover:text-white">{s}</button>)}
+                    {Object.entries(filteredSuggestionsObject).map(([category, interests]) => (
+                      <div key={category}>
+                        <div className="px-5 py-2 bg-gray-100 font-extrabold text-xs text-gray-500 uppercase tracking-wider sticky top-0">
+                          {category}
+                        </div>
+                        {interests.map((s) => (
+                          <button
+                            key={s}
+                            onClick={() => toggleInterest(s)}
+                            className="w-full text-left px-5 py-3 text-sm font-bold border-b hover:bg-black hover:text-white transition-colors"
+                          >
+                            {s}
+                          </button>
+                        ))}
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>
@@ -150,11 +194,11 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
                 <button onClick={() => setStep(2)} className="flex-1 py-5 border-2 border-black font-black uppercase text-xs">{t.back}</button>
                 <button onClick={() => selectedInterests.length >= 3 && onComplete(gender!, selectedInterests, level!, lang)} disabled={selectedInterests.length < 3} className="flex-[2] py-5 bg-black text-white font-black uppercase text-sm tracking-widest">{t.start}</button>
               </div>
-            </section>
+            </section >
           )}
-        </div>
-      </div>
-    </div>
+        </div >
+      </div >
+    </div >
   );
 };
 
