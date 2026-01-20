@@ -76,7 +76,13 @@ app.post('/api/user', async (req, res) => {
 
     try {
         // 1. Get initial Must-Read from Bedrock
-        const mustReads = await getMustReadPapers(interestKeywords, level);
+        let mustReads: any[] = [];
+        try {
+            mustReads = await getMustReadPapers(interestKeywords, level);
+        } catch (bedrockError) {
+            console.error("Failed to get initial recommendations:", bedrockError);
+            // Continue without recommendations
+        }
 
         // 2. Create User
         const user = await prisma.user.create({
