@@ -229,9 +229,9 @@ const App: React.FC = () => {
   };
 
   const handleResetApp = () => {
-    localStorage.removeItem('pickle_user_id');
+    localStorage.removeItem('paperquest_user_id');
     setUser(null);
-    setAppState(AppState.ONBOARDING);
+    setAppState(AppState.LANDING);
     setSelectedPaper(null);
     setSummary(null);
     setQuiz(null);
@@ -467,7 +467,6 @@ const App: React.FC = () => {
       />
     </div>
   );
-
   return (
     <div className="min-h-screen bg-[#f8f8f8] text-black pb-20">
       <header className="sticky top-0 z-50 bg-white border-b-2 border-black px-6 py-4 flex justify-between items-center shadow-sm">
@@ -476,6 +475,14 @@ const App: React.FC = () => {
           <img src={pickleLogo} alt="Pickle" className="h-8 object-contain" />
         </div>
         <div className="flex items-center gap-6">
+          {user && (
+            <button
+              onClick={handleResetApp}
+              className="text-[10px] font-black uppercase text-gray-400 hover:text-red-500 transition-colors"
+            >
+              Log Out
+            </button>
+          )}
           <div className="hidden md:flex flex-col items-end">
             <span className="text-[10px] pixel-font text-gray-400">{t.pts}</span>
             <span className="text-lg font-black">{user?.totalCorrectCount} PTS</span>
