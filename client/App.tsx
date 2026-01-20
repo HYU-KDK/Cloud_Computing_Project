@@ -199,7 +199,7 @@ const App: React.FC = () => {
   };
 
   const handleOnboardingComplete = async (gender: Gender, interests: string[], level: AcademicLevel, lang: AppLanguage) => {
-    setIsProcessing(true);
+    setLoading(true);
     try {
       // Backend creates user and generates must-read list
       const newUser = await initializeUser({
@@ -224,7 +224,7 @@ const App: React.FC = () => {
     } catch (err) {
       console.error(err);
     } finally {
-      setIsProcessing(false);
+      setLoading(false);
     }
   };
 
