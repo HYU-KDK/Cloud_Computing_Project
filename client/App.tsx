@@ -439,16 +439,6 @@ const App: React.FC = () => {
           if (!user) return;
           // save to DB
           try {
-            await syncUserPaper(user.id, p, p.isRead || false, true); // Assuming saved means inLibrary
-            // actually logic is: if status is true (Read) -> isRead=true. 
-            // The Discovery component calls: onToggleRead(p, true/false for isRead) ?
-            // Let's check Discovery usage:
-            // "Save to Read" -> status 'to-read' -> calls onToggleRead(paper, false) ?? No.
-            // Discovery.tsx: 
-            // <button onClick={() => onToggleRead(paper, false)}>Save To Read</button>
-            // <button onClick={() => onToggleRead(paper, true)}>Mark as Read</button>
-            // So second arg is `isRead`. Both imply `isInLibrary`.
-
             await syncUserPaper(user.id, p, s, true);
             const updatedUser = await fetchUser(user.id);
             setUser(updatedUser);
