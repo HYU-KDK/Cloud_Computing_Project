@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id                String   @id @default(uuid())
+  gender            String
+  level             String   // 'beginner' | 'intermediate' | 'advanced'
+  language          String   // 'ko' | 'en'
+  interestKeywords  String[]
+  totalCorrectCount Int      @default(0)
+  currentStage      Int      @default(0)
+  masteredPaperIds  String[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  userPapers        UserPaper[]
+}
+
+model Paper {
+  id        String   @id @default(uuid())
+  title     String   @unique
+  authors   String[]
+  url       String
+  source    String
+  venue     String?
+  year      String?
+  abstract  String   @db.Text
+  
+  userPapers UserPaper[]
+}
+
+model UserPaper {
+  id                   String   @id @default(uuid())
+  userId               String
+  paperId              String
+  
+  // Status flags
+  isMustRead           Boolean  @default(false) // If part of 'Must Read' list
+  isInLibrary          Boolean  @default(false) // If added to library (read or to-read)
+  isRead               Boolean  @default(false) // If marked as completed
+  
+  recommendationReason String?
+  
+  // AI-generated content (stored as JSON)
+  summary              Json?    // PaperSummary
+  quiz                 Json?    // Quiz
+  
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  
+  user                 User     @relation(fields: [userId], references: [id])
+  paper                Paper    @relation(fields: [paperId], references: [id])
+
+  @@unique([userId, paperId])
+}

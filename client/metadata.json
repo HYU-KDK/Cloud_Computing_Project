@@ -1,0 +1,8 @@
+{
+  "name": "PaperQuest",
+  "description": "An AI-powered research paper learning platform where you study papers, solve quizzes, and grow your pixel-art character through academic achievement.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
