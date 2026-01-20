@@ -104,7 +104,7 @@ app.post('/api/user', async (req, res) => {
                     url: paperData.url || "#",
                     source: paperData.source || "Unknown",
                     venue: paperData.venue,
-                    year: paperData.year,
+                    year: String(paperData.year || ""), // Ensure string
                     abstract: paperData.abstract || "No abstract available"
                 }
             });
