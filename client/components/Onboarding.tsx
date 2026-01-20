@@ -20,8 +20,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
 
   const t = {
     ko: {
-      engine: "학술적 성장을 위한 엔진",
-      langSelect: "언어 선택 / Select Language",
+      langSelect: "Select Language",
       continue: "계속하기",
       identity: "정체성 선택",
       male: "남성",
@@ -41,7 +40,6 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
       advancedDesc: "최첨단 연구 성과와 심화 논문에 집중합니다."
     },
     en: {
-      engine: "Academic Growth Engine",
       langSelect: "Select Language",
       continue: "CONTINUE",
       identity: "Select Identity",
@@ -101,82 +99,81 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
 
   return (
     <div className="min-h-screen bg-[#fcfcfc] flex items-center justify-center p-6 antialiased">
-      <div className="max-w-xl w-full">
+      <div className="max-w-md w-full">
         <div className="text-center mb-12">
-          <img src={pickleLogo} alt="Pickle" className="h-24 mx-auto mb-6 object-contain" />
-          <p className="text-gray-500 font-bold uppercase tracking-widest text-[10px]">{t.engine}</p>
+          <img src={pickleLogo} alt="Pickle" className="h-48 mx-auto mb-6 object-contain" />
         </div>
 
-        <div className="bg-white border-[3px] border-black p-10 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
+        <div className="bg-white border-[3px] border-black p-8 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
           {step === 0 && (
-            <section className="space-y-8 animate-in fade-in duration-500">
-              <h2 className="text-3xl font-extrabold tracking-tight">{t.langSelect}</h2>
-              <div className="grid grid-cols-2 gap-4">
-                <button onClick={() => setLang('ko')} className={`p-6 border-2 font-black transition-all ${lang === 'ko' ? 'bg-black text-white' : 'bg-white text-black border-gray-100 hover:border-black'}`}>한국어 (KO)</button>
-                <button onClick={() => setLang('en')} className={`p-6 border-2 font-black transition-all ${lang === 'en' ? 'bg-black text-white' : 'bg-white text-black border-gray-100 hover:border-black'}`}>ENGLISH (EN)</button>
+            <section className="space-y-6 animate-in fade-in duration-500">
+              <h2 className="text-xl font-extrabold tracking-tight pixel-font leading-relaxed">{t.langSelect}</h2>
+              <div className="grid grid-cols-2 gap-3">
+                <button onClick={() => setLang('ko')} className={`p-4 border-2 font-black text-sm transition-all kr-sans ${lang === 'ko' ? 'bg-black text-white' : 'bg-white text-black border-gray-100 hover:border-black'}`}>한국어 (KO)</button>
+                <button onClick={() => setLang('en')} className={`p-4 border-2 font-black text-sm transition-all ${lang === 'en' ? 'bg-black text-white' : 'bg-white text-black border-gray-100 hover:border-black'}`}>ENGLISH (EN)</button>
               </div>
-              <button onClick={() => setStep(1)} className="w-full py-5 bg-black text-white font-extrabold text-sm uppercase tracking-widest flex items-center justify-center gap-2">{t.continue} <ArrowRight size={18} /></button>
+              <button onClick={() => setStep(1)} className="w-full py-4 bg-black text-white font-extrabold text-xs uppercase tracking-widest flex items-center justify-center gap-2">{t.continue} <ArrowRight size={16} /></button>
             </section>
           )}
 
           {step === 1 && (
-            <section className="space-y-8 animate-in fade-in duration-500">
-              <h2 className="text-3xl font-extrabold tracking-tight">{t.identity}</h2>
-              <div className="grid grid-cols-2 gap-4">
-                <button onClick={() => setGender('male')} className={`p-6 border-2 font-black transition-all ${gender === 'male' ? 'bg-black text-white shadow-lg' : 'bg-white border-gray-100 hover:border-black'}`}>{t.male}</button>
-                <button onClick={() => setGender('female')} className={`p-6 border-2 font-black transition-all ${gender === 'female' ? 'bg-black text-white shadow-lg' : 'bg-white border-gray-100 hover:border-black'}`}>{t.female}</button>
+            <section className="space-y-6 animate-in fade-in duration-500">
+              <h2 className={`text-xl font-extrabold tracking-tight leading-relaxed ${lang === 'ko' ? 'kr-sans' : 'pixel-font'}`}>{t.identity}</h2>
+              <div className="grid grid-cols-2 gap-3">
+                <button onClick={() => setGender('male')} className={`p-4 border-2 font-black text-sm transition-all ${lang === 'ko' ? 'kr-sans' : 'pixel-font text-[10px]'} ${gender === 'male' ? 'bg-black text-white shadow-lg' : 'bg-white border-gray-100 hover:border-black'}`}>{t.male}</button>
+                <button onClick={() => setGender('female')} className={`p-4 border-2 font-black text-sm transition-all ${lang === 'ko' ? 'kr-sans' : 'pixel-font text-[10px]'} ${gender === 'female' ? 'bg-black text-white shadow-lg' : 'bg-white border-gray-100 hover:border-black'}`}>{t.female}</button>
               </div>
-              <div className="flex gap-4">
-                <button onClick={() => setStep(0)} className="flex-1 py-5 border-2 border-black font-black uppercase text-xs">{t.back}</button>
-                <button onClick={() => gender && setStep(2)} disabled={!gender} className="flex-[2] py-5 bg-black text-white font-black uppercase text-sm tracking-widest">{t.next}</button>
+              <div className="flex gap-3">
+                <button onClick={() => setStep(0)} className={`flex-1 py-4 border-2 border-black font-black uppercase text-[10px] ${lang === 'ko' ? 'kr-sans' : 'pixel-font text-[8px]'}`}>{t.back}</button>
+                <button onClick={() => gender && setStep(2)} disabled={!gender} className={`flex-[2] py-4 bg-black text-white font-black uppercase text-xs tracking-widest ${lang === 'ko' ? 'kr-sans' : 'pixel-font text-[8px]'}`}>{t.next}</button>
               </div>
             </section>
           )}
 
           {step === 2 && (
-            <section className="space-y-8 animate-in fade-in duration-500">
-              <h2 className="text-3xl font-extrabold tracking-tight">{t.levelTitle}</h2>
-              <div className="space-y-4">
+            <section className="space-y-6 animate-in fade-in duration-500">
+              <h2 className={`text-xl font-extrabold tracking-tight leading-relaxed ${lang === 'ko' ? 'kr-sans' : 'pixel-font'}`}>{t.levelTitle}</h2>
+              <div className="space-y-3">
                 {levels.map((l) => (
-                  <button key={l.id} onClick={() => setLevel(l.id)} className={`w-full p-6 border-2 text-left transition-all ${level === l.id ? 'bg-black text-white' : 'bg-white border-gray-100 hover:border-black'}`}>
-                    <div className="flex items-center gap-4 mb-1"><span className={level === l.id ? 'text-white' : 'text-indigo-600'}>{l.icon}</span><span className="font-extrabold text-xl">{l.label}</span></div>
-                    <p className={`text-xs ${level === l.id ? 'text-gray-300' : 'text-gray-500'}`}>{l.desc}</p>
+                  <button key={l.id} onClick={() => setLevel(l.id)} className={`w-full p-4 border-2 text-left transition-all ${level === l.id ? 'bg-black text-white' : 'bg-white border-gray-100 hover:border-black'}`}>
+                    <div className="flex items-center gap-3 mb-1"><span className={level === l.id ? 'text-white' : 'text-indigo-600'}>{l.icon}</span><span className={`font-extrabold text-lg ${lang === 'ko' ? 'kr-sans' : 'pixel-font text-xs'}`}>{l.label}</span></div>
+                    <p className={`text-[10px] ${level === l.id ? 'text-gray-300' : 'text-gray-500'} ${lang === 'ko' ? 'kr-sans' : 'font-sans'}`}>{l.desc}</p>
                   </button>
                 ))}
               </div>
-              <div className="flex gap-4">
-                <button onClick={() => setStep(1)} className="flex-1 py-5 border-2 border-black font-black uppercase text-xs">{t.back}</button>
-                <button onClick={() => level && setStep(3)} disabled={!level} className="flex-[2] py-5 bg-black text-white font-black uppercase text-sm tracking-widest">{t.next}</button>
+              <div className="flex gap-3">
+                <button onClick={() => setStep(1)} className={`flex-1 py-4 border-2 border-black font-black uppercase text-[10px] ${lang === 'ko' ? 'kr-sans' : 'pixel-font text-[8px]'}`}>{t.back}</button>
+                <button onClick={() => level && setStep(3)} disabled={!level} className={`flex-[2] py-4 bg-black text-white font-black uppercase text-xs tracking-widest ${lang === 'ko' ? 'kr-sans' : 'pixel-font text-[8px]'}`}>{t.next}</button>
               </div>
             </section>
           )}
 
           {step === 3 && (
-            <section className="space-y-8 animate-in fade-in duration-500">
-              <h2 className="text-3xl font-extrabold tracking-tight">{t.interests}</h2>
+            <section className="space-y-6 animate-in fade-in duration-500">
+              <h2 className={`text-xl font-extrabold tracking-tight leading-relaxed ${lang === 'ko' ? 'kr-sans' : 'pixel-font'}`}>{t.interests}</h2>
               <div className="relative">
-                <div className="flex items-center border-2 border-black p-4 bg-gray-50 focus-within:bg-white">
+                <div className="flex items-center border-2 border-black p-3 bg-gray-50 focus-within:bg-white">
                   <input
                     type="text"
                     value={inputValue}
                     onChange={(e) => { setInputValue(e.target.value); setShowSuggestions(true); }}
                     placeholder={t.searchPlaceholder}
-                    className="flex-1 bg-transparent outline-none font-bold text-sm"
+                    className={`flex-1 bg-transparent outline-none font-bold text-xs ${lang === 'ko' ? 'kr-sans' : ''}`}
                   />
-                  <Plus size={20} />
+                  <Plus size={18} />
                 </div>
                 {showSuggestions && hasSuggestions && (
                   <div className="absolute z-50 w-full mt-2 bg-white border-2 border-black shadow-lg max-h-64 overflow-y-auto">
                     {Object.entries(filteredSuggestionsObject).map(([category, interests]) => (
                       <div key={category}>
-                        <div className="px-5 py-2 bg-gray-100 font-extrabold text-xs text-gray-500 uppercase tracking-wider sticky top-0">
+                        <div className={`px-4 py-2 bg-gray-100 font-extrabold text-[10px] text-gray-500 uppercase tracking-wider sticky top-0 ${lang === 'ko' ? 'kr-sans' : ''}`}>
                           {category}
                         </div>
                         {interests.map((s) => (
                           <button
                             key={s}
                             onClick={() => toggleInterest(s)}
-                            className="w-full text-left px-5 py-3 text-sm font-bold border-b hover:bg-black hover:text-white transition-colors"
+                            className={`w-full text-left px-4 py-3 text-xs font-bold border-b hover:bg-black hover:text-white transition-colors ${lang === 'ko' ? 'kr-sans' : ''}`}
                           >
                             {s}
                           </button>
@@ -186,13 +183,13 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
                   </div>
                 )}
               </div>
-              <div className="flex flex-wrap gap-2 min-h-[100px] p-4 bg-gray-50/50 border-2 border-dashed">
-                {selectedInterests.map(i => <button key={i} onClick={() => toggleInterest(i)} className="flex items-center gap-2 px-3 py-2 bg-black text-white text-[10px] font-bold group shadow-sm">{i}<X size={12} /></button>)}
-                {selectedInterests.length < 3 && <p className="text-[10px] text-gray-400 font-bold italic mt-2">{t.interestsMin}</p>}
+              <div className="flex flex-wrap gap-2 min-h-[100px] p-3 bg-gray-50/50 border-2 border-dashed">
+                {selectedInterests.map(i => <button key={i} onClick={() => toggleInterest(i)} className={`flex items-center gap-2 px-2 py-1 bg-black text-white text-[10px] font-bold group shadow-sm ${lang === 'ko' ? 'kr-sans' : 'pixel-font text-[8px]'}`}>{i}<X size={10} /></button>)}
+                {selectedInterests.length < 3 && <p className={`text-[10px] text-gray-400 font-bold italic mt-2 ${lang === 'ko' ? 'kr-sans' : ''}`}>{t.interestsMin}</p>}
               </div>
-              <div className="flex gap-4">
-                <button onClick={() => setStep(2)} className="flex-1 py-5 border-2 border-black font-black uppercase text-xs">{t.back}</button>
-                <button onClick={() => selectedInterests.length >= 3 && onComplete(gender!, selectedInterests, level!, lang)} disabled={selectedInterests.length < 3} className="flex-[2] py-5 bg-black text-white font-black uppercase text-sm tracking-widest">{t.start}</button>
+              <div className="flex gap-3">
+                <button onClick={() => setStep(2)} className={`flex-1 py-4 border-2 border-black font-black uppercase text-[10px] ${lang === 'ko' ? 'kr-sans' : 'pixel-font text-[8px]'}`}>{t.back}</button>
+                <button onClick={() => selectedInterests.length >= 3 && onComplete(gender!, selectedInterests, level!, lang)} disabled={selectedInterests.length < 3} className={`flex-[2] py-4 bg-black text-white font-black uppercase text-xs tracking-widest ${lang === 'ko' ? 'kr-sans' : 'pixel-font text-[8px]'}`}>{t.start}</button>
               </div>
             </section >
           )}

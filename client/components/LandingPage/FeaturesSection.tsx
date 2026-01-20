@@ -28,18 +28,18 @@ const FeaturesSection: React.FC = () => {
             <div className="max-w-6xl mx-auto">
 
                 <div className="text-center mb-16">
-                    <h2 className="text-4xl font-black mb-4">KEY FEATURES</h2>
-                    <p className="text-gray-500 font-bold uppercase tracking-widest">Why Pickle works</p>
+                    <h2 className="text-4xl font-black mb-4 pixel-font tracking-tight">KEY FEATURES</h2>
+                    <p className="text-gray-500 font-bold uppercase tracking-widest pixel-font text-xs">Why Pickle works</p>
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-8">
                     {features.map((f, i) => (
                         <div key={i} className={`group relative p-8 border-[3px] border-black bg-white hover:-translate-y-2 transition-transform duration-300 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]`}>
-                            <div className={`inline-flex p-4 rounded-full border-2 border-black mb-6 ${f.bg} group-hover:scale-110 transition-transform`}>
+                            <div className={`inline-flex p-4 border-2 border-black mb-6 ${f.bg} group-hover:scale-110 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]`}>
                                 {f.icon}
                             </div>
-                            <h3 className="text-2xl font-black mb-3">{f.title}</h3>
-                            <p className="text-gray-600 font-medium leading-relaxed">{f.desc}</p>
+                            <h3 className="text-xl font-black mb-3 pixel-font leading-relaxed">{f.title}</h3>
+                            <p className="text-gray-600 font-medium leading-relaxed kr-sans text-sm">{f.desc}</p>
                         </div>
                     ))}
                 </div>
